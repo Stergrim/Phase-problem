@@ -1,4 +1,5 @@
-﻿namespace Phase_problem_main
+﻿
+namespace Phase_problem_main
 {
     partial class Form1
     {
@@ -55,7 +56,6 @@
             this.button_Start.TabIndex = 1;
             this.button_Start.Text = "Start";
             this.button_Start.UseVisualStyleBackColor = true;
-            this.button_Start.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
@@ -86,7 +86,6 @@
             this.label1.Size = new System.Drawing.Size(31, 16);
             this.label1.TabIndex = 5;
             this.label1.Text = "KC0";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -113,7 +112,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(589, 385);
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Form1
             // 
@@ -150,4 +148,3 @@
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
-

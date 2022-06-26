@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phase-problem-main", "Phase-problem-main\Phase-problem-main.csproj", "{0072E0B9-6E4E-4CA3-BF65-3F4668BEA828}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph3D", "Graph3D\Graph3D.csproj", "{70634D82-9FD4-4EC9-A1A8-92638B07E832}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0072E0B9-6E4E-4CA3-BF65-3F4668BEA828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0072E0B9-6E4E-4CA3-BF65-3F4668BEA828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0072E0B9-6E4E-4CA3-BF65-3F4668BEA828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70634D82-9FD4-4EC9-A1A8-92638B07E832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70634D82-9FD4-4EC9-A1A8-92638B07E832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70634D82-9FD4-4EC9-A1A8-92638B07E832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70634D82-9FD4-4EC9-A1A8-92638B07E832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
