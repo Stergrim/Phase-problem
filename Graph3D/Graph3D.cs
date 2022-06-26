@@ -1333,13 +1333,13 @@ namespace Plot3D
             switch (Control.ModifierKeys)
             {
                 case Keys.None:
-                    if (e.Button == MouseButtons.Left)
+                    if (e.Button == MouseButtons.Right)
                     {
                         Cursor = Cursors.NoMoveVert;
                         mi_Mouse.me_Action = eMouseAction.Theta;
                     }
 
-                    if (e.Button == MouseButtons.Right)
+                    if (e.Button == MouseButtons.Left)
                     {
                         Cursor = Cursors.NoMoveHoriz;
                         mi_Mouse.me_Action = eMouseAction.Phi;

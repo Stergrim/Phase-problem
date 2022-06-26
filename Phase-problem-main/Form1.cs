@@ -160,7 +160,7 @@ namespace Phase_problem_main
 
         private void SetSurfaceZernike()
         {
-            var front = new WaveFront() { DiscretizationPupil = 50, NumberCoefficients = 10 };
+            var front = new WaveFront() { DiscretizationPupil = 51, NumberCoefficients = 10 };
             front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
             front.CalcWaveFront();
 

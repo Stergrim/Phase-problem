@@ -35,14 +35,7 @@ namespace Phase_problem_main
 
                     if (RadiusVector[x, y] <= 1)
                     {
-                        if ((xAxis[x] > 0 && yAxis[y] >= 0) || (xAxis[x] > 0 && yAxis[y] <= 0))
-                            angle[x, y] = Math.Atan2(yAxis[y], xAxis[x]);
-                        else if ((xAxis[x] < 0 && yAxis[y] >= 0) || (xAxis[x] < 0 && yAxis[y] <= 0))
-                            angle[x, y] = Math.PI + Math.Atan2(yAxis[y], xAxis[x]);
-                        else if ((xAxis[x] == 0 && xAxis[x - 1] > 0 && yAxis[y] > 0) || (xAxis[x] == 0 && xAxis[x - 1] < 0 && yAxis[y] < 0))
-                            angle[x, y] = -Math.PI / 2.0;
-                        else if ((xAxis[x] == 0 && xAxis[x - 1] < 0 && yAxis[y] > 0) || (xAxis[x] == 0 && xAxis[x - 1] > 0 && yAxis[y] < 0))
-                            angle[x, y] = Math.PI / 2.0;
+                        angle[x, y] = Math.Atan2(yAxis[y], xAxis[x]);
 
                         // Счётчик числа полиномов
                         int l = 0;
