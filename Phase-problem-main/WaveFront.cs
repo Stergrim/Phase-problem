@@ -9,15 +9,15 @@ namespace Phase_problem_main
     public class WaveFront
     {
         public int NumberCoefficients { get; set; }
-        public FormationPolynomials Polinoms { get; set; }
         public int DiscretizationPupil { get; set; }
+        public FormationPolynomials Polinoms  = new FormationPolynomials();
         public double[] CoefficientsPolynomials { get; set; }
 
         public double[,] WaveFrontMatrix { get; set; }
 
         public void CalcWaveFront()
         {
-            WaveFrontMatrix = new double[DiscretizationPupil+1, DiscretizationPupil+1];
+            WaveFrontMatrix = new double[DiscretizationPupil, DiscretizationPupil];
             CoefficientsPolynomials = new double[NumberCoefficients];
 
             Random rnd = new Random();
@@ -26,9 +26,9 @@ namespace Phase_problem_main
                 CoefficientsPolynomials[i] = (double)rnd.Next(-10,11)/10;
             }
 
-            for (int x = 0; x <= DiscretizationPupil; x++)
+            for (int x = 0; x < DiscretizationPupil; x++)
             {
-                for (int y = 0; y <= DiscretizationPupil; y++)
+                for (int y = 0; y < DiscretizationPupil; y++)
                 {
                     for (int i = 0; i < NumberCoefficients; i++)
                     {

@@ -53,7 +53,7 @@ namespace Phase_problem_main
             }
             comboColors.SelectedIndex = (int)eSchema.Rainbow1;
 
-            comboDataSrc.SelectedIndex = 0; // set "SetSurface"
+            comboDataSrc.SelectedIndex = 0; // set "SetSurfaceZernike"
         }
 
         private void comboDataSrc_SelectedIndexChanged(object sender, EventArgs e)
@@ -64,7 +64,8 @@ namespace Phase_problem_main
 
             switch (comboDataSrc.SelectedIndex)
             {
-                case 0: SetSurface(); break;
+                case 0: SetSurfaceZernike(); break;
+                case 1: SetSurfaceDefault(); break;
             }
         }
 
@@ -81,7 +82,7 @@ namespace Phase_problem_main
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            graph3D.SetCoefficients(1350, 70, 230);
+            graph3D.SetCoefficients(2500, 70, 230);
         }
 
         private void btnScreenshot_Click(object sender, EventArgs e)
@@ -110,7 +111,7 @@ namespace Phase_problem_main
         /// <summary>
         /// This demonstrates how to set X, Y, Z values directly (without function)
         /// </summary>
-        private void SetSurface()
+        private void SetSurfaceDefault()
         {
             int[,] s32_Values = new int[,]
             {
@@ -144,6 +145,32 @@ namespace Phase_problem_main
                 for (int Y = 0; Y < s32_Values.GetLength(1); Y++)
                 {
                     i_Points3D[X, Y] = new cPoint3D(X * 10, Y * 500, s32_Values[X, Y]);
+                }
+            }
+
+            // Setting one of the strings = null results in hiding this legend
+            graph3D.AxisX_Legend = "pixels";
+            graph3D.AxisY_Legend = "pixels";
+            graph3D.AxisZ_Legend = "pixels";
+
+            // IMPORTANT: Normalize X,Y,Z separately because there is an extreme mismatch 
+            // between X values (< 300) and Z values (> 30000)
+            graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+        }
+
+        private void SetSurfaceZernike()
+        {
+            var front = new WaveFront() { DiscretizationPupil = 50, NumberCoefficients = 10 };
+            front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
+            front.CalcWaveFront();
+
+            cPoint3D[,] i_Points3D = new cPoint3D[front.WaveFrontMatrix.GetLength(0), front.WaveFrontMatrix.GetLength(1)];
+
+            for (int X = 0; X < front.WaveFrontMatrix.GetLength(0); X++)
+            {
+                for (int Y = 0; Y < front.WaveFrontMatrix.GetLength(1); Y++)
+                {
+                    i_Points3D[X, Y] = new cPoint3D(X, Y, front.WaveFrontMatrix[X, Y]);
                 }
             }
 

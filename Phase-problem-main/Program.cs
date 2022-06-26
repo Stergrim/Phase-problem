@@ -14,16 +14,6 @@ namespace Phase_problem_main
         [STAThread]
         static void Main()
         {
-            var front = new WaveFront();
-            front.DiscretizationPupil = 50;
-            front.NumberCoefficients = 10;
-            var form = new FormationPolynomials();
-            form.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
-            front.Polinoms = form;
-            front.CalcWaveFront();
-            var view = front.WaveFrontMatrix;
-
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

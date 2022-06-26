@@ -15,20 +15,20 @@ namespace Phase_problem_main
 
         public void FormationZernike(int NumberCoefficients, int DiscretizationPupil)
         {
-            Vector = new double[NumberCoefficients, DiscretizationPupil+1, DiscretizationPupil+1];
-            RadiusVector = new double[DiscretizationPupil+1, DiscretizationPupil+1];
+            Vector = new double[NumberCoefficients, DiscretizationPupil, DiscretizationPupil];
+            RadiusVector = new double[DiscretizationPupil, DiscretizationPupil];
 
-            var xAxis = new double[DiscretizationPupil+1];
-            var yAxis = new double[DiscretizationPupil+1];
+            var xAxis = new double[DiscretizationPupil];
+            var yAxis = new double[DiscretizationPupil];
 
-            var angle = new double[DiscretizationPupil+1, DiscretizationPupil+1];
+            var angle = new double[DiscretizationPupil, DiscretizationPupil];
 
-            for (int x = 0; x <= DiscretizationPupil; x++)
+            for (int x = 0; x < DiscretizationPupil; x++)
             {
-                for (int y = 0; y <= DiscretizationPupil; y++)
+                for (int y = 0; y < DiscretizationPupil; y++)
                 {
-                    xAxis[x] = -1.0 + 2.0 * x / DiscretizationPupil;
-                    yAxis[y] = -1.0 + 2.0 * y / DiscretizationPupil;
+                    xAxis[x] = -1.0 + 2.0 * x / (DiscretizationPupil-1);
+                    yAxis[y] = -1.0 + 2.0 * y / (DiscretizationPupil-1);
 
                     // Перевод полярной системы координат в декартову
                     RadiusVector[x, y] = Math.Sqrt(xAxis[x] * xAxis[x] + yAxis[y] * yAxis[y]);

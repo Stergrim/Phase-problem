@@ -133,7 +133,7 @@ namespace Phase_problem_main
             this.graph3D.Name = "graph3D";
             this.graph3D.PolygonLineColor = System.Drawing.Color.Black;
             this.graph3D.Raster = Plot3D.Graph3D.eRaster.Off;
-            this.graph3D.Size = new System.Drawing.Size(679, 292);
+            this.graph3D.Size = new System.Drawing.Size(882, 556);
             this.graph3D.TabIndex = 8;
             // 
             // label4
@@ -141,7 +141,7 @@ namespace Phase_problem_main
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(13, 400);
+            this.label4.Location = new System.Drawing.Point(303, 614);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(678, 16);
@@ -218,6 +218,7 @@ namespace Phase_problem_main
             this.comboDataSrc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDataSrc.FormattingEnabled = true;
             this.comboDataSrc.Items.AddRange(new object[] {
+            "Zernike",
             "Surface"});
             this.comboDataSrc.Location = new System.Drawing.Point(14, 161);
             this.comboDataSrc.Margin = new System.Windows.Forms.Padding(4);
@@ -243,7 +244,7 @@ namespace Phase_problem_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 458);
+            this.ClientSize = new System.Drawing.Size(1094, 639);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnScreenshot);
             this.Controls.Add(this.label5);
