@@ -17,6 +17,7 @@ using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Text.RegularExpressions;
 
 using delRendererFunction = Plot3D.Graph3D.delRendererFunction;
 using cPoint3D            = Plot3D.Graph3D.cPoint3D;
@@ -28,6 +29,7 @@ using eSchema             = Plot3D.ColorSchema.eSchema;
 namespace Phase_problem_main
 {
     using Plot3D;
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -149,9 +151,9 @@ namespace Phase_problem_main
             }
 
             // Setting one of the strings = null results in hiding this legend
-            graph3D.AxisX_Legend = "pixels";
-            graph3D.AxisY_Legend = "pixels";
-            graph3D.AxisZ_Legend = "pixels";
+            graph3D.AxisX_Legend = "none";
+            graph3D.AxisY_Legend = "none";
+            graph3D.AxisZ_Legend = "none";
 
             // IMPORTANT: Normalize X,Y,Z separately because there is an extreme mismatch 
             // between X values (< 300) and Z values (> 30000)
@@ -160,7 +162,7 @@ namespace Phase_problem_main
 
         private void SetSurfaceZernike()
         {
-            var front = new WaveFront() { DiscretizationPupil = 51, NumberCoefficients = 10 };
+            var front = new WaveFront() { NumberCoefficients = 10, DiscretizationPupil = 51 };
             front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
             front.CalcWaveFront();
 
@@ -177,11 +179,60 @@ namespace Phase_problem_main
             // Setting one of the strings = null results in hiding this legend
             graph3D.AxisX_Legend = "pixels";
             graph3D.AxisY_Legend = "pixels";
-            graph3D.AxisZ_Legend = "pixels";
+            graph3D.AxisZ_Legend = "λ";
 
             // IMPORTANT: Normalize X,Y,Z separately because there is an extreme mismatch 
             // between X values (< 300) and Z values (> 30000)
+            graph3D.AreaDisplay = front.Polinoms.RadiusVector;
             graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+        }
+
+        private void SetNumCoeff(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void SetDiscret(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if (!char.IsDigit(number) && number != 8)
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        public bool flag1 = false;
+
+        private void changeNumCoeff(object sender, EventArgs e)
+        {
+            var regex = new Regex("^[1-9][0-9]*$");
+            if (string.IsNullOrWhiteSpace(textBoxNumCoeff.Text) || !regex.IsMatch(textBoxNumCoeff.Text))
+                textBoxNumCoeff.BackColor = Color.LightCoral;
+            else
+                textBoxNumCoeff.BackColor = Color.White;
+
+        }
+
+        private void changeDiscret(object sender, EventArgs e)
+        {
+            var regex = new Regex("^[1-9][0-9]*$");
+
+            if (string.IsNullOrWhiteSpace(textBoxDiscret.Text)|| !regex.IsMatch(textBoxDiscret.Text))
+                textBoxDiscret.BackColor = Color.LightCoral;
+            else
+                textBoxDiscret.BackColor = Color.White;
+
+        }
+
+        private void clickResult(object sender, EventArgs e)
+        {
+            SetSurfaceZernike();
         }
     }
 }

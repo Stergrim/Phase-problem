@@ -30,88 +30,79 @@ namespace Phase_problem_main
         private void InitializeComponent()
         {
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.button_Start = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.btnResult = new System.Windows.Forms.Button();
+            this.textBoxNumCoeff = new System.Windows.Forms.TextBox();
+            this.textBoxDiscret = new System.Windows.Forms.TextBox();
+            this.labelNumCoeff = new System.Windows.Forms.Label();
+            this.labelDiscret = new System.Windows.Forms.Label();
             this.graph3D = new Plot3D.Graph3D();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelInfoMouse = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnScreenshot = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelCoordSystem = new System.Windows.Forms.Label();
+            this.labelColorScheme = new System.Windows.Forms.Label();
+            this.labelDataSource = new System.Windows.Forms.Label();
             this.comboRaster = new System.Windows.Forms.ComboBox();
             this.comboDataSrc = new System.Windows.Forms.ComboBox();
             this.comboColors = new System.Windows.Forms.ComboBox();
+            this.btnCoefficients = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(199, 12);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(679, 23);
+            this.progressBar1.Size = new System.Drawing.Size(882, 23);
             this.progressBar1.TabIndex = 0;
             // 
-            // button_Start
+            // btnResult
             // 
-            this.button_Start.Location = new System.Drawing.Point(30, 97);
-            this.button_Start.Name = "button_Start";
-            this.button_Start.Size = new System.Drawing.Size(144, 31);
-            this.button_Start.TabIndex = 1;
-            this.button_Start.Text = "Start";
-            this.button_Start.UseVisualStyleBackColor = true;
+            this.btnResult.Location = new System.Drawing.Point(20, 224);
+            this.btnResult.Name = "btnResult";
+            this.btnResult.Size = new System.Drawing.Size(160, 28);
+            this.btnResult.TabIndex = 1;
+            this.btnResult.Text = "Result";
+            this.btnResult.UseVisualStyleBackColor = true;
+            this.btnResult.Click += new System.EventHandler(this.clickResult);
             // 
-            // textBox1
+            // textBoxNumCoeff
             // 
-            this.textBox1.Location = new System.Drawing.Point(74, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 2;
+            this.textBoxNumCoeff.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxNumCoeff.Location = new System.Drawing.Point(20, 54);
+            this.textBoxNumCoeff.Name = "textBoxNumCoeff";
+            this.textBoxNumCoeff.Size = new System.Drawing.Size(144, 22);
+            this.textBoxNumCoeff.TabIndex = 2;
+            this.textBoxNumCoeff.Text = "10";
+            this.textBoxNumCoeff.TextChanged += new System.EventHandler(this.changeNumCoeff);
+            this.textBoxNumCoeff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetNumCoeff);
             // 
-            // textBox2
+            // textBoxDiscret
             // 
-            this.textBox2.Location = new System.Drawing.Point(74, 41);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 3;
+            this.textBoxDiscret.Location = new System.Drawing.Point(20, 107);
+            this.textBoxDiscret.Name = "textBoxDiscret";
+            this.textBoxDiscret.Size = new System.Drawing.Size(144, 22);
+            this.textBoxDiscret.TabIndex = 3;
+            this.textBoxDiscret.Text = "50";
+            this.textBoxDiscret.TextChanged += new System.EventHandler(this.changeDiscret);
+            this.textBoxDiscret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetDiscret);
             // 
-            // textBox3
+            // labelNumCoeff
             // 
-            this.textBox3.Location = new System.Drawing.Point(74, 69);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 22);
-            this.textBox3.TabIndex = 4;
+            this.labelNumCoeff.AutoSize = true;
+            this.labelNumCoeff.Location = new System.Drawing.Point(17, 35);
+            this.labelNumCoeff.Name = "labelNumCoeff";
+            this.labelNumCoeff.Size = new System.Drawing.Size(127, 16);
+            this.labelNumCoeff.TabIndex = 5;
+            this.labelNumCoeff.Text = "Number Coefficients";
             // 
-            // label1
+            // labelDiscret
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 16);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "KC0";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 16);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "M";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(45, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 16);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "C0";
+            this.labelDiscret.AutoSize = true;
+            this.labelDiscret.Location = new System.Drawing.Point(17, 88);
+            this.labelDiscret.Name = "labelDiscret";
+            this.labelDiscret.Size = new System.Drawing.Size(87, 16);
+            this.labelDiscret.TabIndex = 6;
+            this.labelDiscret.Text = "Discretization";
             // 
             // graph3D
             // 
@@ -136,22 +127,22 @@ namespace Phase_problem_main
             this.graph3D.Size = new System.Drawing.Size(882, 556);
             this.graph3D.TabIndex = 8;
             // 
-            // label4
+            // labelInfoMouse
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(303, 614);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(678, 16);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Left mouse button : Elevate,  Right mouse: Rotate,  Left mouse + SHIFT: Move,  Le" +
-    "ft mouse + CTRL or wheel: Zoom";
+            this.labelInfoMouse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelInfoMouse.AutoSize = true;
+            this.labelInfoMouse.ForeColor = System.Drawing.Color.Blue;
+            this.labelInfoMouse.Location = new System.Drawing.Point(303, 614);
+            this.labelInfoMouse.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelInfoMouse.Name = "labelInfoMouse";
+            this.labelInfoMouse.Size = new System.Drawing.Size(675, 16);
+            this.labelInfoMouse.TabIndex = 14;
+            this.labelInfoMouse.Text = "Left mouse : Rotate. Right mouse button : Elevate. SHIFT + Left mouse : Move. CTR" +
+    "L + Left mouse or wheel: Zoom";
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(14, 315);
+            this.btnReset.Location = new System.Drawing.Point(16, 456);
             this.btnReset.Margin = new System.Windows.Forms.Padding(4);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(161, 28);
@@ -162,7 +153,7 @@ namespace Phase_problem_main
             // 
             // btnScreenshot
             // 
-            this.btnScreenshot.Location = new System.Drawing.Point(14, 351);
+            this.btnScreenshot.Location = new System.Drawing.Point(16, 492);
             this.btnScreenshot.Margin = new System.Windows.Forms.Padding(4);
             this.btnScreenshot.Name = "btnScreenshot";
             this.btnScreenshot.Size = new System.Drawing.Size(161, 28);
@@ -171,41 +162,41 @@ namespace Phase_problem_main
             this.btnScreenshot.UseVisualStyleBackColor = true;
             this.btnScreenshot.Click += new System.EventHandler(this.btnScreenshot_Click);
             // 
-            // label5
+            // labelCoordSystem
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 240);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 16);
-            this.label5.TabIndex = 25;
-            this.label5.Text = "Coordinate System:";
+            this.labelCoordSystem.AutoSize = true;
+            this.labelCoordSystem.Location = new System.Drawing.Point(13, 381);
+            this.labelCoordSystem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCoordSystem.Name = "labelCoordSystem";
+            this.labelCoordSystem.Size = new System.Drawing.Size(124, 16);
+            this.labelCoordSystem.TabIndex = 25;
+            this.labelCoordSystem.Text = "Coordinate System:";
             // 
-            // label6
+            // labelColorScheme
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 191);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 16);
-            this.label6.TabIndex = 24;
-            this.label6.Text = "Color Scheme:";
+            this.labelColorScheme.AutoSize = true;
+            this.labelColorScheme.Location = new System.Drawing.Point(13, 332);
+            this.labelColorScheme.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelColorScheme.Name = "labelColorScheme";
+            this.labelColorScheme.Size = new System.Drawing.Size(95, 16);
+            this.labelColorScheme.TabIndex = 24;
+            this.labelColorScheme.Text = "Color Scheme:";
             // 
-            // label7
+            // labelDataSource
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 143);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(85, 16);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "Data Source:";
+            this.labelDataSource.AutoSize = true;
+            this.labelDataSource.Location = new System.Drawing.Point(13, 284);
+            this.labelDataSource.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDataSource.Name = "labelDataSource";
+            this.labelDataSource.Size = new System.Drawing.Size(85, 16);
+            this.labelDataSource.TabIndex = 23;
+            this.labelDataSource.Text = "Data Source:";
             // 
             // comboRaster
             // 
             this.comboRaster.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboRaster.FormattingEnabled = true;
-            this.comboRaster.Location = new System.Drawing.Point(14, 258);
+            this.comboRaster.Location = new System.Drawing.Point(16, 399);
             this.comboRaster.Margin = new System.Windows.Forms.Padding(4);
             this.comboRaster.MaxDropDownItems = 30;
             this.comboRaster.Name = "comboRaster";
@@ -220,7 +211,7 @@ namespace Phase_problem_main
             this.comboDataSrc.Items.AddRange(new object[] {
             "Zernike",
             "Surface"});
-            this.comboDataSrc.Location = new System.Drawing.Point(14, 161);
+            this.comboDataSrc.Location = new System.Drawing.Point(16, 302);
             this.comboDataSrc.Margin = new System.Windows.Forms.Padding(4);
             this.comboDataSrc.MaxDropDownItems = 30;
             this.comboDataSrc.Name = "comboDataSrc";
@@ -232,7 +223,7 @@ namespace Phase_problem_main
             // 
             this.comboColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboColors.FormattingEnabled = true;
-            this.comboColors.Location = new System.Drawing.Point(14, 210);
+            this.comboColors.Location = new System.Drawing.Point(16, 351);
             this.comboColors.Margin = new System.Windows.Forms.Padding(4);
             this.comboColors.MaxDropDownItems = 30;
             this.comboColors.Name = "comboColors";
@@ -240,31 +231,39 @@ namespace Phase_problem_main
             this.comboColors.TabIndex = 19;
             this.comboColors.SelectedIndexChanged += new System.EventHandler(this.comboColors_SelectedIndexChanged);
             // 
+            // btnCoefficients
+            // 
+            this.btnCoefficients.Location = new System.Drawing.Point(20, 152);
+            this.btnCoefficients.Name = "btnCoefficients";
+            this.btnCoefficients.Size = new System.Drawing.Size(144, 28);
+            this.btnCoefficients.TabIndex = 26;
+            this.btnCoefficients.Text = "Coefficients";
+            this.btnCoefficients.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1094, 639);
+            this.Controls.Add(this.graph3D);
+            this.Controls.Add(this.btnCoefficients);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnScreenshot);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.labelCoordSystem);
+            this.Controls.Add(this.labelColorScheme);
+            this.Controls.Add(this.labelDataSource);
             this.Controls.Add(this.comboRaster);
             this.Controls.Add(this.comboDataSrc);
             this.Controls.Add(this.comboColors);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.graph3D);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button_Start);
+            this.Controls.Add(this.labelInfoMouse);
+            this.Controls.Add(this.labelDiscret);
+            this.Controls.Add(this.labelNumCoeff);
+            this.Controls.Add(this.textBoxDiscret);
+            this.Controls.Add(this.textBoxNumCoeff);
+            this.Controls.Add(this.btnResult);
             this.Controls.Add(this.progressBar1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Wavefront and intensity distribution of a point source";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,22 +272,21 @@ namespace Phase_problem_main
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button button_Start;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnResult;
+        private System.Windows.Forms.TextBox textBoxNumCoeff;
+        private System.Windows.Forms.TextBox textBoxDiscret;
+        private System.Windows.Forms.Label labelNumCoeff;
+        private System.Windows.Forms.Label labelDiscret;
         private Plot3D.Graph3D graph3D;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelInfoMouse;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnScreenshot;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelCoordSystem;
+        private System.Windows.Forms.Label labelColorScheme;
+        private System.Windows.Forms.Label labelDataSource;
         private System.Windows.Forms.ComboBox comboRaster;
         private System.Windows.Forms.ComboBox comboDataSrc;
         private System.Windows.Forms.ComboBox comboColors;
+        private System.Windows.Forms.Button btnCoefficients;
     }
 }

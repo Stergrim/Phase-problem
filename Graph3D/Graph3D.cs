@@ -1020,6 +1020,8 @@ namespace Plot3D
             }
         }
 
+        public double[,] AreaDisplay { get; set; }
+
         private void CreatePolygons()
         {
             cPoint2D[,] i_Points2D = new cPoint2D[mi_PolyArr.GetLength(0), mi_PolyArr.GetLength(1)];
@@ -1038,23 +1040,26 @@ namespace Plot3D
             {
                 for (int Y = 0; Y < mi_PolyArr.GetLength(1) - 1; Y++)
                 {
-                    cPolygon i_Poly = new cPolygon(i_Points2D[X, Y],
-                                                   i_Points2D[X, Y + 1],
-                                                   i_Points2D[X + 1, Y + 1],
-                                                   i_Points2D[X + 1, Y]);
+                    if (AreaDisplay[X,Y] <= 1 && AreaDisplay[X, Y + 1] <= 1 && AreaDisplay[X + 1, Y + 1] <= 1 && AreaDisplay[X + 1, Y] <= 1)
+                    {
+                        cPolygon i_Poly = new cPolygon(i_Points2D[X, Y],
+                               i_Points2D[X, Y + 1],
+                               i_Points2D[X + 1, Y + 1],
+                               i_Points2D[X + 1, Y]);
 
-                    double Z1 = mi_PolyArr[X, Y].md_Z;
-                    double Z2 = mi_PolyArr[X, Y + 1].md_Z;
-                    double Z3 = mi_PolyArr[X + 1, Y + 1].md_Z;
-                    double Z4 = mi_PolyArr[X + 1, Y].md_Z;
-                    double Zavrg = (Z1 + Z2 + Z3 + Z4) / 4.0;
+                        double Z1 = mi_PolyArr[X, Y].md_Z;
+                        double Z2 = mi_PolyArr[X, Y + 1].md_Z;
+                        double Z3 = mi_PolyArr[X + 1, Y + 1].md_Z;
+                        double Z4 = mi_PolyArr[X + 1, Y].md_Z;
+                        double Zavrg = (Z1 + Z2 + Z3 + Z4) / 4.0;
 
-                    i_Poly.md_FactorZ = (Zavrg - mi_MinMax.md_MinZ) / (mi_MinMax.md_MaxZ - mi_MinMax.md_MinZ);
+                        i_Poly.md_FactorZ = (Zavrg - mi_MinMax.md_MinZ) / (mi_MinMax.md_MaxZ - mi_MinMax.md_MinZ);
 
-                    // Polygons must be painted in correct order: from back to front. Order depends on rotation angle.
-                    double d_Sort = mi_Transform.ProjectXY(X + 1, Y + 1); // +1 because Z axis is at 0,0
+                        // Polygons must be painted in correct order: from back to front. Order depends on rotation angle.
+                        double d_Sort = mi_Transform.ProjectXY(X + 1, Y + 1); // +1 because Z axis is at 0,0
 
-                    AddDrawObject(new cDrawObj(i_Poly, d_Sort));
+                        AddDrawObject(new cDrawObj(i_Poly, d_Sort));
+                    }
                 }
             }
         }
