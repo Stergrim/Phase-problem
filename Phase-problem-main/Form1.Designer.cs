@@ -1,4 +1,6 @@
 ﻿
+using System.Drawing;
+
 namespace Phase_problem_main
 {
     partial class Form1
@@ -57,9 +59,9 @@ namespace Phase_problem_main
             // 
             // btnResult
             // 
-            this.btnResult.Location = new System.Drawing.Point(20, 224);
+            this.btnResult.Location = new System.Drawing.Point(20, 200);
             this.btnResult.Name = "btnResult";
-            this.btnResult.Size = new System.Drawing.Size(160, 28);
+            this.btnResult.Size = new System.Drawing.Size(144, 52);
             this.btnResult.TabIndex = 1;
             this.btnResult.Text = "Result";
             this.btnResult.UseVisualStyleBackColor = true;
@@ -67,8 +69,9 @@ namespace Phase_problem_main
             // 
             // textBoxNumCoeff
             // 
+            this.textBoxNumCoeff.BackColor = System.Drawing.Color.White;
             this.textBoxNumCoeff.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxNumCoeff.Location = new System.Drawing.Point(20, 54);
+            this.textBoxNumCoeff.Location = new System.Drawing.Point(20, 47);
             this.textBoxNumCoeff.Name = "textBoxNumCoeff";
             this.textBoxNumCoeff.Size = new System.Drawing.Size(144, 22);
             this.textBoxNumCoeff.TabIndex = 2;
@@ -78,6 +81,7 @@ namespace Phase_problem_main
             // 
             // textBoxDiscret
             // 
+            this.textBoxDiscret.BackColor = System.Drawing.Color.White;
             this.textBoxDiscret.Location = new System.Drawing.Point(20, 107);
             this.textBoxDiscret.Name = "textBoxDiscret";
             this.textBoxDiscret.Size = new System.Drawing.Size(144, 22);
@@ -89,26 +93,27 @@ namespace Phase_problem_main
             // labelNumCoeff
             // 
             this.labelNumCoeff.AutoSize = true;
-            this.labelNumCoeff.Location = new System.Drawing.Point(17, 35);
+            this.labelNumCoeff.Location = new System.Drawing.Point(17, 12);
             this.labelNumCoeff.Name = "labelNumCoeff";
-            this.labelNumCoeff.Size = new System.Drawing.Size(127, 16);
+            this.labelNumCoeff.Size = new System.Drawing.Size(127, 32);
             this.labelNumCoeff.TabIndex = 5;
-            this.labelNumCoeff.Text = "Number Coefficients";
+            this.labelNumCoeff.Text = "Number Coefficients\r\n(1 <--> 500)";
             // 
             // labelDiscret
             // 
             this.labelDiscret.AutoSize = true;
-            this.labelDiscret.Location = new System.Drawing.Point(17, 88);
+            this.labelDiscret.Location = new System.Drawing.Point(17, 72);
             this.labelDiscret.Name = "labelDiscret";
-            this.labelDiscret.Size = new System.Drawing.Size(87, 16);
+            this.labelDiscret.Size = new System.Drawing.Size(87, 32);
             this.labelDiscret.TabIndex = 6;
-            this.labelDiscret.Text = "Discretization";
+            this.labelDiscret.Text = "Discretization\r\n(4 <--> 500)";
             // 
             // graph3D
             // 
             this.graph3D.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.graph3D.AreaDisplay = null;
             this.graph3D.AxisX_Color = System.Drawing.Color.DarkBlue;
             this.graph3D.AxisX_Legend = null;
             this.graph3D.AxisY_Color = System.Drawing.Color.DarkGreen;
@@ -209,8 +214,7 @@ namespace Phase_problem_main
             this.comboDataSrc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDataSrc.FormattingEnabled = true;
             this.comboDataSrc.Items.AddRange(new object[] {
-            "Zernike",
-            "Surface"});
+            "Zernike"});
             this.comboDataSrc.Location = new System.Drawing.Point(16, 302);
             this.comboDataSrc.Margin = new System.Windows.Forms.Padding(4);
             this.comboDataSrc.MaxDropDownItems = 30;

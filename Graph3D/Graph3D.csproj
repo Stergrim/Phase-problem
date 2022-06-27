@@ -45,9 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorSchema.cs" />
-    <Compile Include="FunctionCompiler.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Graph3D.cs">
       <SubType>UserControl</SubType>
     </Compile>

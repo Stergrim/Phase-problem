@@ -76,9 +76,6 @@ namespace Plot3D
             public eMouseAction me_Action;     // left mouse button action
             public Point mk_LastPos;    // last mouse location
             public Point mk_Offset;     // Offset for painting in OnPaint()
-            public TrackBar mi_TrackRho;   // Rho trackbar (optional)
-            public TrackBar mi_TrackTheta; // Theta trackbar (optional)
-            public TrackBar mi_TrackPhi;   // Phi trackbar (optional)
             public double md_Rho = VALUES_RHO[2]; // 2 = Default value
             public double md_Theta = VALUES_THETA[2]; // 2 = Default value
             public double md_Phi = VALUES_PHI[2]; // 2 = Default value
@@ -123,24 +120,18 @@ namespace Plot3D
                 md_Rho = d_Rho;
                 md_Rho = Math.Max(md_Rho, VALUES_RHO[0]); // 0 = Minimum
                 md_Rho = Math.Min(md_Rho, VALUES_RHO[1]); // 1 = Maximum
-                if (mi_TrackRho != null)
-                    mi_TrackRho.Value = (int)md_Rho;
             }
             public void SetTheta(double d_Theta)
             {
                 md_Theta = d_Theta;
-                md_Theta = Math.Max(md_Theta, VALUES_THETA[0]); // 0 = Minimum
-                md_Theta = Math.Min(md_Theta, VALUES_THETA[1]); // 1 = Maximum
-                if (mi_TrackTheta != null)
-                    mi_TrackTheta.Value = (int)md_Theta;
+                if (md_Theta > 360.0) md_Theta -= 360.0; // continuous elevation
+                if (md_Theta < 0.0) md_Theta += 360.0; // continuous elevation
             }
             public void SetPhi(double d_Phi)
             {
                 md_Phi = d_Phi;
                 if (md_Phi > 360.0) md_Phi -= 360.0; // continuous rotation
                 if (md_Phi < 0.0) md_Phi += 360.0; // continuous rotation
-                if (mi_TrackPhi != null)
-                    mi_TrackPhi.Value = (int)md_Phi;
             }
         }
 
@@ -267,22 +258,6 @@ namespace Plot3D
                     }
                 }
             }
-
-            // Constructor
-            public cMinMax3D(cScatter[] i_ScatterArr)
-            {
-                foreach (cScatter i_Scatter in i_ScatterArr)
-                {
-                    cPoint3D i_Point3D = i_Scatter.mi_Point3D;
-
-                    md_MinX = Math.Min(md_MinX, i_Point3D.md_X);
-                    md_MaxX = Math.Max(md_MaxX, i_Point3D.md_X);
-                    md_MinY = Math.Min(md_MinY, i_Point3D.md_Y);
-                    md_MaxY = Math.Max(md_MaxY, i_Point3D.md_Y);
-                    md_MinZ = Math.Min(md_MinZ, i_Point3D.md_Z);
-                    md_MaxZ = Math.Max(md_MaxZ, i_Point3D.md_Z);
-                }
-            }
         }
 
         #endregion
@@ -355,53 +330,11 @@ namespace Plot3D
 
         #endregion
 
-        #region cScatter
-
-        public class cScatter
-        {
-            public cPoint3D mi_Point3D;
-            public PointF mk_Point;   // upper left corner
-            public Brush mi_Brush;
-            public Pen mi_Pen;
-            public double md_FactorZ; // used to determine scheme color if mi_Brush == null
-            public cScatter mi_Previous;
-            public bool mb_Combine; // draw line from previous to this
-            private bool mb_Valid;
-
-            /// <summary>
-            /// i_Brush == null --> use color from ColorScheme
-            /// i_Brush != null --> use i_Brush
-            /// </summary>
-            public cScatter(double X, double Y, double Z, Brush i_Brush)
-            {
-                mi_Point3D = new cPoint3D(X, Y, Z);
-                mi_Brush = i_Brush;
-            }
-
-            public void SetPoint2D(cPoint2D i_Point2D)
-            {
-                mk_Point = i_Point2D.Coord;
-                mb_Valid = i_Point2D.IsValid;
-
-                // Move from center to upper left corner of circle
-                mk_Point.X -= SCATTER_SIZE;
-                mk_Point.Y -= SCATTER_SIZE;
-            }
-
-            public bool IsValid
-            {
-                get { return mb_Valid; }
-            }
-        }
-
-        #endregion
-
         #region cDrawObj
 
         private class cDrawObj
         {
             public cPolygon mi_Polygon;
-            public cScatter mi_Scatter;
             public cLine mi_Line;
             public double md_Sort;    // sorting is important. Always draw from back to front.
             private bool mb_Valid;
@@ -410,12 +343,6 @@ namespace Plot3D
             {
                 mi_Polygon = i_Polygon;
                 mb_Valid = i_Polygon.IsValid;
-                md_Sort = d_Sort;
-            }
-            public cDrawObj(cScatter i_Scatter, double d_Sort)
-            {
-                mi_Scatter = i_Scatter;
-                mb_Valid = i_Scatter.IsValid;
                 md_Sort = d_Sort;
             }
             public cDrawObj(cLine i_Line, double d_Sort)
@@ -580,8 +507,8 @@ namespace Plot3D
         // A movement of mouse by approx 1000 pixels on the screen results in getting from Min to Max or vice versa.
         //
         //                                                      MIN     MAX   DEFAULT  MOUSE FACTOR
-        static readonly double[] VALUES_RHO = new double[] { 0, 3000, 2500, 2 };
-        static readonly double[] VALUES_THETA = new double[] { 10, 170, 70, 0.25 }; // degree
+        static readonly double[] VALUES_RHO = new double[] { 300, 4000, 2000, 2 };
+        static readonly double[] VALUES_THETA = new double[] { 0, 360, 70, 0.25 }; // degree (continuous elevation)
         static readonly double[] VALUES_PHI = new double[] { 0, 360, 230, 0.4 }; // degree  (continuous rotation)
 
         // The axis are 10% longer than the highest X,Y,Z value
@@ -589,12 +516,6 @@ namespace Plot3D
 
         // For any strange reason the graph is not centerd vertically
         const int VERT_OFFSET = -30;
-
-        // The radius of the scatter circles
-        const int SCATTER_SIZE = 3;
-
-        // Calculate 3-dimensional Z value from X,Y values
-        public delegate double delRendererFunction(double X, double Y);
 
         eRaster me_Raster = eRaster.Off;
         Pen[] mi_AxisPens = new Pen[3];
@@ -607,11 +528,9 @@ namespace Plot3D
         SolidBrush[] mi_AxisBrushes = new SolidBrush[3];
         Pen mi_PolyLinePen;
         Pen mi_BorderPen;
-        SolidBrush mi_TopLegendBrush;
         SolidBrush[] mi_SchemeBrushes;
         Pen[] mi_SchemePens;
         cPoint3D[,] mi_PolyArr;
-        cScatter[] mi_ScatterArr;
         cMinMax3D mi_MinMax;
         cQuadrant mi_Quadrant;
         int ms32_Points;
@@ -764,7 +683,6 @@ namespace Plot3D
 
             mi_PolyLinePen = new Pen(Color.Black, 1);
             mi_BorderPen = new Pen(Color.FromArgb(255, 180, 180, 180), 1); // bright gray
-            mi_TopLegendBrush = new SolidBrush(Color.FromArgb(255, 200, 200, 150));    // beige
 
             mi_Transform.SetCoeficients(mi_Mouse);
         }
@@ -780,7 +698,6 @@ namespace Plot3D
         {
             Debug.Assert(!InvokeRequired); // Do not call from other threads or use Invoke()
 
-            mi_ScatterArr = null;
             mi_PolyArr = i_Points3D;
             ms32_Points = i_Points3D.Length;
             mi_MinMax = new cMinMax3D(i_Points3D);
@@ -1036,11 +953,15 @@ namespace Plot3D
             }
 
             // Create polygons
-            for (int X = 0; X < mi_PolyArr.GetLength(0) - 1; X++)
+            int bordersTrimming = 1;
+
+            for (int X = bordersTrimming; X < mi_PolyArr.GetLength(0) - bordersTrimming; X++)
             {
-                for (int Y = 0; Y < mi_PolyArr.GetLength(1) - 1; Y++)
+                for (int Y = bordersTrimming; Y < mi_PolyArr.GetLength(1) - bordersTrimming; Y++)
                 {
-                    if (AreaDisplay[X,Y] <= 1 && AreaDisplay[X, Y + 1] <= 1 && AreaDisplay[X + 1, Y + 1] <= 1 && AreaDisplay[X + 1, Y] <= 1)
+                    if (AreaDisplay[X,Y] <= 1.0 && AreaDisplay[X, Y + bordersTrimming] <= 1.0 &&
+                        AreaDisplay[X + bordersTrimming, Y + bordersTrimming] <= 1.0 &&
+                        AreaDisplay[X + bordersTrimming, Y] <= 1.0)
                     {
                         cPolygon i_Poly = new cPolygon(i_Points2D[X, Y],
                                i_Points2D[X, Y + 1],
@@ -1061,26 +982,6 @@ namespace Plot3D
                         AddDrawObject(new cDrawObj(i_Poly, d_Sort));
                     }
                 }
-            }
-        }
-
-        private void CreateScatterDots()
-        {
-            // Convert 3D --> 2D
-            foreach (cScatter i_Scatter in mi_ScatterArr)
-            {
-                i_Scatter.SetPoint2D(mi_Transform.Project(i_Scatter.mi_Point3D, mi_MinMax.mi_Center3D));
-
-                // Do not store the Brush from the ColorScheme in i_Scatter.mi_Brush.
-                // The colors would not change when the user changes the colorscheme.
-                if (i_Scatter.mi_Brush == null)
-                    i_Scatter.md_FactorZ = (i_Scatter.mi_Point3D.md_Z - mi_MinMax.md_MinZ) / (mi_MinMax.md_MaxZ - mi_MinMax.md_MinZ);
-
-                // Scatter circles must be painted in correct order: from back to front. Order depends on rotation angle.
-                double d_Sort = mi_Transform.ProjectXY(i_Scatter.mi_Point3D.md_X + 1.0,
-                                                       i_Scatter.mi_Point3D.md_Y + 1.0); // +1 because Z axis is at 0,0
-
-                AddDrawObject(new cDrawObj(i_Scatter, d_Sort));
             }
         }
 
@@ -1195,7 +1096,6 @@ namespace Plot3D
                 CreateCoordinateSystem(i_Graph);
 
                 if (mi_PolyArr != null) CreatePolygons();
-                if (mi_ScatterArr != null) CreateScatterDots();
             }
 
             i_Graph.Clear(BackColor);
@@ -1240,36 +1140,6 @@ namespace Plot3D
                     if (mi_PolyLinePen != null)
                     {
                         i_Graph.DrawPolygon(mi_PolyLinePen, i_Poly.mk_Points);
-                    }
-                }
-                else if (i_DrawObj.mi_Scatter != null)
-                {
-                    if (e_Smooth != SmoothingMode.AntiAlias) // avoid unneccessary calls into GDI+ (speed optimization)
-                    {
-                        e_Smooth = SmoothingMode.AntiAlias;
-                        i_Graph.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-                    cScatter i_Scatter = i_DrawObj.mi_Scatter;
-
-                    if (i_Scatter.mb_Combine) // points connected by lines
-                    {
-                        if (i_Scatter.mi_Previous != null)
-                        {
-                            Pen i_Pen = i_Scatter.mi_Pen;
-                            if (i_Pen == null) // user has not defined a color
-                                i_Pen = GetSchemePen(i_Scatter.md_FactorZ);
-
-                            i_Graph.DrawLine(i_Pen, i_Scatter.mi_Previous.mk_Point, i_Scatter.mk_Point);
-                        }
-                    }
-                    else // separate scatter points
-                    {
-                        Brush i_Brush = i_Scatter.mi_Brush;
-                        if (i_Brush == null) // user has not defined a color
-                            i_Brush = GetSchemeBrush(i_Scatter.md_FactorZ);
-
-                        i_Graph.FillEllipse(i_Brush, i_Scatter.mk_Point.X, i_Scatter.mk_Point.Y, SCATTER_SIZE * 2, SCATTER_SIZE * 2);
                     }
                 }
                 else // cLine

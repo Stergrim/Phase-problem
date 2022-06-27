@@ -33,7 +33,7 @@ namespace Phase_problem_main
                     // Перевод полярной системы координат в декартову
                     RadiusVector[x, y] = Math.Sqrt(xAxis[x] * xAxis[x] + yAxis[y] * yAxis[y]);
 
-                    if (RadiusVector[x, y] <= 1)
+                    if (RadiusVector[x, y] <= 1.0)
                     {
                         angle[x, y] = Math.Atan2(yAxis[y], xAxis[x]);
 
