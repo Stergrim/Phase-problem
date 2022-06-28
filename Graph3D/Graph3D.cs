@@ -486,9 +486,11 @@ namespace Plot3D
                 if (zn <= 0) zn = 0.01;
 
                 // Thales' theorem
-                cPoint2D i_Point2D = new cPoint2D();
-                i_Point2D.md_X = md_FactX * xn * md_Dist / zn + md_OffsX;
-                i_Point2D.md_Y = md_FactY * yn * md_Dist / zn + md_OffsY;
+                cPoint2D i_Point2D = new cPoint2D
+                {
+                    md_X = md_FactX * xn * md_Dist / zn + md_OffsX,
+                    md_Y = md_FactY * yn * md_Dist / zn + md_OffsY
+                };
                 return i_Point2D;
             }
 
@@ -790,8 +792,10 @@ namespace Plot3D
             // Add the 3 coordinate system main axis
             for (int A = 0; A < 3; A++)
             {
-                cLine i_Axis = new cLine();
-                i_Axis.mi_Pen = mi_AxisPens[A];
+                cLine i_Axis = new cLine
+                {
+                    mi_Pen = mi_AxisPens[A]
+                };
 
                 switch ((eCoord)A)
                 {
@@ -863,11 +867,13 @@ namespace Plot3D
                             if (d_Offset < d_SecndStart || d_Offset > d_SecndEnd)
                                 continue;
 
-                            cLine i_Raster = new cLine();
-                            i_Raster.mi_Pen = mi_RasterPens[(int)e_Second];
-                            i_Raster.me_Line = e_First;
-                            i_Raster.me_Offset = e_Second;
-                            i_Raster.md_Label = d_Offset;
+                            cLine i_Raster = new cLine
+                            {
+                                mi_Pen = mi_RasterPens[(int)e_Second],
+                                me_Line = e_First,
+                                me_Offset = e_Second,
+                                md_Label = d_Offset
+                            };
                             i_Raster.mi_Points3D[0] = i_FirstAxis.mi_Points3D[0].Clone();
                             i_Raster.mi_Points3D[1] = i_FirstAxis.mi_Points3D[1].Clone();
 

@@ -27,12 +27,14 @@ namespace Phase_problem_main
     {
         public int NumberCoefficients { get; set; }
         public int DiscretizationPupil { get; set; }
+        public double[] CoefficientsPolynomials { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
             NumberCoefficients = 10;
             DiscretizationPupil = 51;
+            SetDefaultCoeff();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -86,10 +88,12 @@ namespace Phase_problem_main
 
         private void btnScreenshot_Click(object sender, EventArgs e)
         {
-            SaveFileDialog i_Dlg = new SaveFileDialog();
-            i_Dlg.Title = "Save as PNG image";
-            i_Dlg.Filter = "PNG Image|*.png";
-            i_Dlg.DefaultExt = ".png";
+            SaveFileDialog i_Dlg = new SaveFileDialog
+            {
+                Title = "Save as PNG image",
+                Filter = "PNG Image|*.png",
+                DefaultExt = ".png"
+            };
 
             if (DialogResult.Cancel == i_Dlg.ShowDialog(this))
                 return;
@@ -117,6 +121,7 @@ namespace Phase_problem_main
         {
             front.NumberCoefficients = NumberCoefficients;
             front.DiscretizationPupil = DiscretizationPupil;
+            front.CoefficientsPolynomials = CoefficientsPolynomials;
             front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
             front.CalcWaveFront();
 
@@ -212,14 +217,68 @@ namespace Phase_problem_main
 
         private void clickResult(object sender, EventArgs e)
         {
+            SetCoeff();
             SetSurfaceZernike();
             //btnResult.Enabled = false;
         }
 
+        private ZernikeCoefficientsForm zernikeCoefficientsForm;
+
+        private bool initialZernikeCoeffForm = false;
+
         private void btnCoeff_click(object sender, EventArgs e)
         {
-            ZernikeCoefficientsForm f = new ZernikeCoefficientsForm();
-            f.Visible = true;
+            if (!initialZernikeCoeffForm)
+            {
+                zernikeCoefficientsForm = new ZernikeCoefficientsForm(NumberCoefficients)
+                {
+                    Visible = true
+                };
+                initialZernikeCoeffForm = true;
+            }
+            else
+            {
+                zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+                zernikeCoefficientsForm.Visible = true;
+            }
+
+        }
+
+        public void SetCoeff()
+        {
+            if (initialZernikeCoeffForm)
+            {
+                CoefficientsPolynomials = new double[NumberCoefficients];
+
+                for (int i = 0; i < zernikeCoefficientsForm.textBoxes.Length; i++)
+                {
+                    CoefficientsPolynomials[i] = double.Parse(zernikeCoefficientsForm.textBoxes[i].Text, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                }
+            }
+            else SetDefaultCoeff();
+
+        }
+
+        public void SetDefaultCoeff()
+        {
+            CoefficientsPolynomials = new double[NumberCoefficients];
+
+            Random rnd = new Random();
+            for (int i = 0; i < NumberCoefficients; i++)
+            {
+                CoefficientsPolynomials[i] = (double)rnd.Next(-10, 11) / 10;
+            }
+        }
+
+        private void RefreshCoeff(object sender, EventArgs e)
+        {
+            if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+        }
+
+        private void RefreshCoeffBoard(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+            if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
         }
     }
 }

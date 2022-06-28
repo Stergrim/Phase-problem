@@ -18,13 +18,6 @@ namespace Phase_problem_main
         public void CalcWaveFront()
         {
             WaveFrontMatrix = new double[DiscretizationPupil, DiscretizationPupil];
-            CoefficientsPolynomials = new double[NumberCoefficients];
-
-            Random rnd = new Random();
-            for (int i = 0; i < NumberCoefficients; i++)
-            {
-                CoefficientsPolynomials[i] = (double)rnd.Next(-10,11)/10;
-            }
 
             for (int x = 0; x < DiscretizationPupil; x++)
             {

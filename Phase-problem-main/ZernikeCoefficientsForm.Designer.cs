@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // ZernikeCoefficientsForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "ZernikeCoefficientsForm";
             this.Text = "ZernikeCoefficientsForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ZernikeCoefficientsForm_FormClosing);
+            this.ResumeLayout(false);
         }
 
         #endregion
