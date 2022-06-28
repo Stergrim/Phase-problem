@@ -28,7 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnRandom = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(12, 12);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(72, 26);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.clickReset);
+            // 
+            // btnRandom
+            // 
+            this.btnRandom.Location = new System.Drawing.Point(104, 12);
+            this.btnRandom.Name = "btnRandom";
+            this.btnRandom.Size = new System.Drawing.Size(92, 26);
+            this.btnRandom.TabIndex = 1;
+            this.btnRandom.Text = "Random";
+            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.Click += new System.EventHandler(this.clickRandom);
             // 
             // ZernikeCoefficientsForm
             // 
@@ -36,12 +58,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRandom);
+            this.Controls.Add(this.btnReset);
             this.Name = "ZernikeCoefficientsForm";
-            this.Text = "ZernikeCoefficientsForm";
+            this.Text = "Set Zernike Coefficients";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ZernikeCoefficientsForm_FormClosing);
             this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnRandom;
     }
 }

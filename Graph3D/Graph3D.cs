@@ -1,9 +1,6 @@
-﻿
-/*****************************************************************************
+﻿/*****************************************************************************
 
-This class has been written by Elmü (elmue@gmx.de)
-It is based on code from Michał Bryłka but has been completely rewritten from the ground.
-His code had several issues, bugs, misdesignes and a bad performance.
+This class has been written by Elmь (elmue@gmx.de)
 
 Check if you have the latest version on:
 https://www.codeproject.com/Articles/5293980/Graph3D-A-Windows-Forms-Render-Control-in-Csharp

@@ -1,3 +1,12 @@
+/*****************************************************************************
+
+This class has been written by Elmü (elmue@gmx.de)
+
+Check if you have the latest version on:
+https://www.codeproject.com/Articles/5293980/Graph3D-A-Windows-Forms-Render-Control-in-Csharp
+
+*****************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,13 +1,4 @@
 ﻿
-/*****************************************************************************
-
-This class has been written by Elmь (elmue@gmx.de)
-
-Check if you have the latest version on:
-https://www.codeproject.com/Articles/5293980/Graph3D-A-Windows-Forms-Render-Control-in-Csharp
-
-*****************************************************************************/
-
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -174,12 +165,12 @@ namespace Phase_problem_main
                 int.Parse(textBoxNumCoeff.Text) > 500)
             {
                 textBoxNumCoeff.BackColor = Color.LightCoral;
-                btnResult.Enabled = allTextBoxesIsNotEmpty();
+                SetbtnResult(allTextBoxesIsNotEmpty());
             }
             else
             {
                 textBoxNumCoeff.BackColor = Color.White;
-                btnResult.Enabled = allTextBoxesIsNotEmpty();
+                if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
                 NumberCoefficients = int.Parse(textBoxNumCoeff.Text);
             }
         }
@@ -193,14 +184,19 @@ namespace Phase_problem_main
                 int.Parse(textBoxDiscret.Text) > 500)
             {
                 textBoxDiscret.BackColor = Color.LightCoral;
-                btnResult.Enabled = allTextBoxesIsNotEmpty();
+                SetbtnResult(allTextBoxesIsNotEmpty());
             }
             else
             {
                 textBoxDiscret.BackColor = Color.White;
-                btnResult.Enabled = allTextBoxesIsNotEmpty();
+                if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
                 DiscretizationPupil = int.Parse(textBoxDiscret.Text);
             }
+        }
+
+        public void SetbtnResult(bool enable)
+        {
+            btnResult.Enabled = enable;
         }
 
         public bool allTextBoxesIsNotEmpty()
@@ -219,7 +215,7 @@ namespace Phase_problem_main
         {
             SetCoeff();
             SetSurfaceZernike();
-            //btnResult.Enabled = false;
+            SetbtnResult(false);
         }
 
         private ZernikeCoefficientsForm zernikeCoefficientsForm;
@@ -230,10 +226,12 @@ namespace Phase_problem_main
         {
             if (!initialZernikeCoeffForm)
             {
+                SetbtnResult(false);
                 zernikeCoefficientsForm = new ZernikeCoefficientsForm(NumberCoefficients)
                 {
                     Visible = true
                 };
+                zernikeCoefficientsForm.SetbtnResult += SetbtnResult;
                 initialZernikeCoeffForm = true;
             }
             else
@@ -270,15 +268,22 @@ namespace Phase_problem_main
             }
         }
 
-        private void RefreshCoeff(object sender, EventArgs e)
-        {
-            if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
-        }
-
         private void RefreshCoeffBoard(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
-            if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+            {
+                if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+                SetbtnResult(allTextBoxesIsNotEmpty());
+            }
+        }
+
+        private void btnEnableResultBoard(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+            {
+                if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+                SetbtnResult(allTextBoxesIsNotEmpty());
+            }
         }
     }
 }

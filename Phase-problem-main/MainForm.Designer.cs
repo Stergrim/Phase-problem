@@ -76,7 +76,6 @@ namespace Phase_problem_main
             this.textBoxNumCoeff.Size = new System.Drawing.Size(144, 22);
             this.textBoxNumCoeff.TabIndex = 2;
             this.textBoxNumCoeff.Text = "10";
-            this.textBoxNumCoeff.Click += new System.EventHandler(this.RefreshCoeff);
             this.textBoxNumCoeff.TextChanged += new System.EventHandler(this.changeNumCoeff);
             this.textBoxNumCoeff.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RefreshCoeffBoard);
             this.textBoxNumCoeff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetNumCoeff);
@@ -90,6 +89,7 @@ namespace Phase_problem_main
             this.textBoxDiscret.TabIndex = 3;
             this.textBoxDiscret.Text = "50";
             this.textBoxDiscret.TextChanged += new System.EventHandler(this.changeDiscret);
+            this.textBoxDiscret.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnEnableResultBoard);
             this.textBoxDiscret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetDiscret);
             // 
             // labelNumCoeff
