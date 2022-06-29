@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.Drawing;
 
 namespace Phase_problem_main
@@ -48,6 +49,8 @@ namespace Phase_problem_main
             this.comboDataSrc = new System.Windows.Forms.ComboBox();
             this.comboColors = new System.Windows.Forms.ComboBox();
             this.btnCoefficients = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.worker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -243,15 +246,34 @@ namespace Phase_problem_main
             this.btnCoefficients.Name = "btnCoefficients";
             this.btnCoefficients.Size = new System.Drawing.Size(144, 28);
             this.btnCoefficients.TabIndex = 26;
-            this.btnCoefficients.Text = "Coefficients";
+            this.btnCoefficients.Text = "Set Coefficients";
             this.btnCoefficients.UseVisualStyleBackColor = true;
             this.btnCoefficients.Click += new System.EventHandler(this.btnCoeff_click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(20, 200);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(144, 52);
+            this.btnStop.TabIndex = 27;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Visible = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStopClick);
+            // 
+            // worker
+            // 
+            this.worker.WorkerReportsProgress = true;
+            this.worker.WorkerSupportsCancellation = true;
+            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SetSurfaceZernike);
+            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_RunWorkerCompleted);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1094, 639);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.graph3D);
             this.Controls.Add(this.btnCoefficients);
             this.Controls.Add(this.btnReset);
@@ -270,7 +292,7 @@ namespace Phase_problem_main
             this.Controls.Add(this.btnResult);
             this.Controls.Add(this.progressBar1);
             this.Name = "MainForm";
-            this.Text = "Wavefront and intensity distribution of a point source";
+            this.Text = "Wavefront and intensity distribution of a point source(in development)";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,5 +317,7 @@ namespace Phase_problem_main
         private System.Windows.Forms.ComboBox comboDataSrc;
         private System.Windows.Forms.ComboBox comboColors;
         private System.Windows.Forms.Button btnCoefficients;
+        private System.Windows.Forms.Button btnStop;
+        private BackgroundWorker worker;
     }
 }

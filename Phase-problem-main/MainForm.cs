@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.Threading;
 
 using cPoint3D            = Plot3D.Graph3D.cPoint3D;
 using eRaster             = Plot3D.Graph3D.eRaster;
@@ -13,6 +15,7 @@ using eSchema             = Plot3D.ColorSchema.eSchema;
 namespace Phase_problem_main
 {
     using Plot3D;
+    using System.ComponentModel;
 
     public partial class MainForm : Form
     {
@@ -57,7 +60,9 @@ namespace Phase_problem_main
 
             switch (comboDataSrc.SelectedIndex)
             {
-                case 0: SetSurfaceZernike(); break;
+                case 0:
+                    DefSurfaceZernike();
+                    break;
             }
         }
 
@@ -100,15 +105,7 @@ namespace Phase_problem_main
             }
         }
 
-        // ================================================================================================
-
-        /// <summary>
-        /// This demonstrates how to set X, Y, Z values directly (without function)
-        /// </summary>
-
-        public WaveFront front = new WaveFront();
-
-        private void SetSurfaceZernike()
+        private void DefSurfaceZernike()
         {
             front.NumberCoefficients = NumberCoefficients;
             front.DiscretizationPupil = DiscretizationPupil;
@@ -116,7 +113,7 @@ namespace Phase_problem_main
             front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
             front.CalcWaveFront();
 
-            cPoint3D[,] i_Points3D = new cPoint3D[front.WaveFrontMatrix.GetLength(0), front.WaveFrontMatrix.GetLength(1)];
+            i_Points3D = new cPoint3D[front.WaveFrontMatrix.GetLength(0), front.WaveFrontMatrix.GetLength(1)];
 
             for (int X = 0; X < front.WaveFrontMatrix.GetLength(0); X++)
             {
@@ -135,6 +132,111 @@ namespace Phase_problem_main
             // between X values (< 300) and Z values (> 30000)
             graph3D.AreaDisplay = front.Polinoms.RadiusVector;
             graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+        }
+
+
+        public WaveFront front = new WaveFront();
+
+        public cPoint3D[,] i_Points3D;
+
+        public void Test()
+        {
+            var dod = new double[100, 100];
+
+
+        }
+
+
+        private void Draw(cPoint3D[,] i_Points3D, double [,] RadiusVector)
+        {
+            graph3D.AreaDisplay = RadiusVector;
+            graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+            btnStop.Visible = false;
+        }
+
+        private MyResult ResizeDouble(cPoint3D[,] i_Points3D, double[,] RadiusVector)
+        {
+            var result = new MyResult();
+
+            result.i_Points3DCalc = new cPoint3D[51, 51];
+            result.RadiusVector = new double[51, 51];
+
+            for (int i = 0; i < 51; i++)
+            {
+                for (int j = 0; j < 51; j++)
+                {
+                    result.i_Points3DCalc[i, j] = i_Points3D[i - 25 + i_Points3D.GetLength(0) / 2, j - 25 + i_Points3D.GetLength(1) / 2];
+                    result.RadiusVector[i, j] = RadiusVector[i - 25 + RadiusVector.GetLength(0) / 2, j - 25 + RadiusVector.GetLength(1) / 2];
+                }
+            }
+
+            return result;
+        }
+
+        private void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled)
+            {
+                var result = (MyResult)e.Result;
+                if (result.RadiusVector.GetLength(0) > 51)
+                    result = ResizeDouble(result.i_Points3DCalc, result.RadiusVector);
+                Draw(result.i_Points3DCalc, result.RadiusVector);
+                if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = true;
+            }
+        }
+
+        private void SetSurfaceZernike(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            var frontCalc = new WaveFront();
+            frontCalc.NumberCoefficients = NumberCoefficients;
+            frontCalc.DiscretizationPupil = DiscretizationPupil;
+            frontCalc.CoefficientsPolynomials = CoefficientsPolynomials;
+            frontCalc.Polinoms.FormationZernike(frontCalc.NumberCoefficients, frontCalc.DiscretizationPupil, worker, e);
+            if (worker.CancellationPending == true)
+            {
+                return;
+            }
+            frontCalc.CalcWaveFront();
+            //front.NumberCoefficients = NumberCoefficients;
+            //front.DiscretizationPupil = DiscretizationPupil;
+            //front.CoefficientsPolynomials = CoefficientsPolynomials;
+            //front.Polinoms.FormationZernike(front.NumberCoefficients, front.DiscretizationPupil);
+            //front.CalcWaveFront();
+
+            var i_Points3DCalc = new cPoint3D[frontCalc.WaveFrontMatrix.GetLength(0), frontCalc.WaveFrontMatrix.GetLength(1)];
+
+            //i_Points3D = new cPoint3D[front.WaveFrontMatrix.GetLength(0), front.WaveFrontMatrix.GetLength(1)];
+
+            for (int X = 0; X < frontCalc.WaveFrontMatrix.GetLength(0); X++)
+            {
+                for (int Y = 0; Y < frontCalc.WaveFrontMatrix.GetLength(1); Y++)
+                {
+                    i_Points3DCalc[X, Y] = new cPoint3D(X, Y, frontCalc.WaveFrontMatrix[X, Y]);
+                }
+            }
+
+            // Setting one of the strings = null results in hiding this legend
+            //graph3D.AxisX_Legend = "pixels";
+            //graph3D.AxisY_Legend = "pixels";
+            //graph3D.AxisZ_Legend = "λ";
+
+            e.Result = new MyResult
+            {
+                i_Points3DCalc = i_Points3DCalc,
+                RadiusVector = frontCalc.Polinoms.RadiusVector
+            };
+
+                // IMPORTANT: Normalize X,Y,Z separately because there is an extreme mismatch 
+                // between X values (< 300) and Z values (> 30000)
+                //graph3D.AreaDisplay = front.Polinoms.RadiusVector;
+                //graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+            }
+
+        class MyResult
+        {
+            public cPoint3D[,] i_Points3DCalc;
+            public double[,] RadiusVector;
         }
 
         private void SetNumCoeff(object sender, KeyPressEventArgs e)
@@ -170,7 +272,7 @@ namespace Phase_problem_main
             else
             {
                 textBoxNumCoeff.BackColor = Color.White;
-                if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
+                //if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
                 NumberCoefficients = int.Parse(textBoxNumCoeff.Text);
             }
         }
@@ -189,7 +291,7 @@ namespace Phase_problem_main
             else
             {
                 textBoxDiscret.BackColor = Color.White;
-                if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
+                //if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
                 DiscretizationPupil = int.Parse(textBoxDiscret.Text);
             }
         }
@@ -214,8 +316,11 @@ namespace Phase_problem_main
         private void clickResult(object sender, EventArgs e)
         {
             SetCoeff();
-            SetSurfaceZernike();
+            btnStop.Visible = true;
             SetbtnResult(false);
+            if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = false;
+            worker.RunWorkerAsync();
+            //SetbtnResult(false);
         }
 
         private ZernikeCoefficientsForm zernikeCoefficientsForm;
@@ -284,6 +389,13 @@ namespace Phase_problem_main
                 if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
                 SetbtnResult(allTextBoxesIsNotEmpty());
             }
+        }
+
+        private void btnStopClick(object sender, EventArgs e)
+        {
+            btnStop.Visible = false;
+            this.worker.CancelAsync();
+            if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = true;
         }
     }
 }

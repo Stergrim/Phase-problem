@@ -61,7 +61,7 @@
             this.Controls.Add(this.btnRandom);
             this.Controls.Add(this.btnReset);
             this.Name = "ZernikeCoefficientsForm";
-            this.Text = "Set Zernike Coefficients";
+            this.Text = "Set Zernike Coefficients(in development)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ZernikeCoefficientsForm_FormClosing);
             this.ResumeLayout(false);
 
