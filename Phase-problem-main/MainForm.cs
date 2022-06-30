@@ -49,7 +49,8 @@ namespace Phase_problem_main
             }
             comboColors.SelectedIndex = (int)eSchema.Rainbow2;
 
-            comboDataSrc.SelectedIndex = 0; // set "SetSurfaceZernike"
+            DefSurfaceZernike(); // set "DefSurfaceZernike" OnLoad
+            comboDataSrc.SelectedIndex = 0;
         }
 
         private void comboDataSrc_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,8 +62,17 @@ namespace Phase_problem_main
             switch (comboDataSrc.SelectedIndex)
             {
                 case 0:
-                    DefSurfaceZernike();
-                    break;
+                    Draw("50"); break;
+                case 1:
+                    Draw("60"); break;
+                case 2:
+                    Draw("70"); break;
+                case 3:
+                    Draw("80"); break;
+                case 4:
+                    Draw("90"); break;
+                case 5:
+                    Draw("100"); break;
             }
         }
 
@@ -124,14 +134,13 @@ namespace Phase_problem_main
             }
 
             // Setting one of the strings = null results in hiding this legend
-            graph3D.AxisX_Legend = "pixels";
-            graph3D.AxisY_Legend = "pixels";
-            graph3D.AxisZ_Legend = "λ";
+            //graph3D.AxisX_Legend = "pixels";
+            //graph3D.AxisY_Legend = "pixels";
+            //graph3D.AxisZ_Legend = "λ";
 
             // IMPORTANT: Normalize X,Y,Z separately because there is an extreme mismatch 
             // between X values (< 300) and Z values (> 30000)
-            graph3D.AreaDisplay = front.Polinoms.RadiusVector;
-            graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
+            //Draw("50");
         }
 
 
@@ -139,49 +148,126 @@ namespace Phase_problem_main
 
         public cPoint3D[,] i_Points3D;
 
-        public void Test()
+        private void Draw(string resize)
         {
-            var dod = new double[100, 100];
-
-
-        }
-
-
-        private void Draw(cPoint3D[,] i_Points3D, double [,] RadiusVector)
-        {
-            graph3D.AreaDisplay = RadiusVector;
-            graph3D.SetSurfacePoints(i_Points3D, eNormalize.Separate);
-            btnStop.Visible = false;
-        }
-
-        private MyResult ResizeDouble(cPoint3D[,] i_Points3D, double[,] RadiusVector)
-        {
-            var result = new MyResult();
-
-            result.i_Points3DCalc = new cPoint3D[51, 51];
-            result.RadiusVector = new double[51, 51];
-
-            for (int i = 0; i < 51; i++)
+            var myresult = new MyResult();
+            switch (resize)
             {
-                for (int j = 0; j < 51; j++)
+                case "<50":
+                    myresult = ResizeDouble(0); break;
+                case "50":
+                    myresult = ResizeDouble(51); break;
+                case "60":
+                    myresult = ResizeDouble(61); break;
+                case "70":
+                    myresult = ResizeDouble(71); break;
+                case "80":
+                    myresult = ResizeDouble(81); break;
+                case "90":
+                    myresult = ResizeDouble(91); break;
+                case "100":
+                    myresult = ResizeDouble(101); break;
+            }
+
+            graph3D.AxisX_Legend = "pixels";
+            graph3D.AxisY_Legend = "pixels";
+            graph3D.AxisZ_Legend = "λ";
+            graph3D.AreaDisplay = myresult.RadiusVector;
+            graph3D.SetSurfacePoints(myresult.i_Points3DCalc, eNormalize.Separate);
+        }
+
+        //****************************************************
+        // Времянка переделать на масштабирование
+        private MyResult ResizeDouble(int resize)
+        {
+            if (resize < 51) //(resize < 51)
+            {
+                return new MyResult
                 {
-                    result.i_Points3DCalc[i, j] = i_Points3D[i - 25 + i_Points3D.GetLength(0) / 2, j - 25 + i_Points3D.GetLength(1) / 2];
-                    result.RadiusVector[i, j] = RadiusVector[i - 25 + RadiusVector.GetLength(0) / 2, j - 25 + RadiusVector.GetLength(1) / 2];
+                    i_Points3DCalc = i_Points3D,
+                    RadiusVector = front.Polinoms.RadiusVector
+                };
+            }
+
+            var result = new MyResult
+            {
+                i_Points3DCalc = new cPoint3D[resize, resize],
+                RadiusVector = new double[resize, resize]
+            };
+
+            int icount = 0;
+            int jcount = 0;
+
+            for (int i = 0; i < resize; i++)
+            {
+                for (int j = 0; j < resize; j++)
+                {
+                    icount = i_Points3D.GetLength(0) / 2 - resize / 2 + i;
+                    jcount = i_Points3D.GetLength(0) / 2 - resize / 2 + j;
+                    result.i_Points3DCalc[i, j] = new cPoint3D
+                    {
+                        md_X = i,
+                        md_Y = j,
+                        md_Z = i_Points3D[icount, jcount].md_Z,
+                    };
+                    result.RadiusVector[i, j] = front.Polinoms.RadiusVector[icount, jcount];
                 }
             }
 
             return result;
         }
+        //****************************************************
 
+        public void RefreshComboItems(int sizeR)
+        {
+            string[] ComboItems;
+            if (sizeR < 51)
+            {
+                comboDataSrc.Items.Clear();
+                comboDataSrc.Items.AddRange(new string[] {"<50"});
+                //comboDataSrc.SelectedIndex = 0;
+                comboDataSrc.Enabled = false;
+            }
+            else if (sizeR < 61)
+            {
+                comboDataSrc.Items.Clear();
+                comboDataSrc.Items.AddRange(new string[] { "50" });
+                //comboDataSrc.SelectedIndex = 0;
+                comboDataSrc.Enabled = false;
+            }
+            else if (sizeR < 91)
+            {
+                comboDataSrc.Items.Clear();
+                ComboItems = new string[sizeR/10-4];
+                Array.Copy(ComboItemsAll, ComboItems, sizeR / 10 - 4);
+                comboDataSrc.Items.AddRange(ComboItems);
+                //comboDataSrc.SelectedIndex = 0;
+                comboDataSrc.Enabled = true;
+            }
+            else
+            {
+                comboDataSrc.Items.Clear();
+                comboDataSrc.Items.AddRange(ComboItemsAll);
+                //comboDataSrc.SelectedIndex = 0;
+                comboDataSrc.Enabled = true;
+            }
+        }
+
+        public string[] ComboItemsAll = new string[] { "50", "60", "70", "80", "90", "100"};
         private void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (!e.Cancelled)
             {
                 var result = (MyResult)e.Result;
-                if (result.RadiusVector.GetLength(0) > 51)
-                    result = ResizeDouble(result.i_Points3DCalc, result.RadiusVector);
-                Draw(result.i_Points3DCalc, result.RadiusVector);
-                if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = true;
+                front.Polinoms.RadiusVector = result.RadiusVector;
+                i_Points3D = result.i_Points3DCalc;
+                if (front.Polinoms.RadiusVector.GetLength(0) < 51)
+                    Draw("<50");
+                else Draw("50");
+                RefreshComboItems(front.Polinoms.RadiusVector.GetLength(0));
+                progressBar1.Value = 100;
+                btnStop.Visible = false;
+                ActivationForm(true);
             }
         }
 
@@ -292,7 +378,7 @@ namespace Phase_problem_main
             {
                 textBoxDiscret.BackColor = Color.White;
                 //if (!initialZernikeCoeffForm) SetbtnResult(allTextBoxesIsNotEmpty());
-                DiscretizationPupil = int.Parse(textBoxDiscret.Text);
+                DiscretizationPupil = int.Parse(textBoxDiscret.Text) + 1;
             }
         }
 
@@ -313,12 +399,21 @@ namespace Phase_problem_main
             return AllIsOk;
         }
 
+        public void ActivationForm(bool active)
+        {
+            if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = active;
+            textBoxNumCoeff.Enabled = active;
+            textBoxDiscret.Enabled = active;
+            btnCoefficients.Enabled = active;
+            comboDataSrc.Enabled = active;
+        }
+
         private void clickResult(object sender, EventArgs e)
         {
             SetCoeff();
             btnStop.Visible = true;
             SetbtnResult(false);
-            if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = false;
+            ActivationForm(false);
             worker.RunWorkerAsync();
             //SetbtnResult(false);
         }
@@ -395,7 +490,12 @@ namespace Phase_problem_main
         {
             btnStop.Visible = false;
             this.worker.CancelAsync();
-            if (initialZernikeCoeffForm) zernikeCoefficientsForm.Enabled = true;
+            ActivationForm(true);
+        }
+
+        private void bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
         }
     }
 }

@@ -100,6 +100,8 @@ namespace Phase_problem_main
 
             for (int x = 0; x < DiscretizationPupil; x++)
             {
+                worker.ReportProgress((int)(100*(x/(double)DiscretizationPupil)));
+
                 for (int y = 0; y < DiscretizationPupil; y++)
                 {
                     if (worker.CancellationPending)

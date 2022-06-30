@@ -58,6 +58,7 @@ namespace Phase_problem_main
             this.progressBar1.Location = new System.Drawing.Point(199, 12);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(882, 23);
+            this.progressBar1.Step = 5;
             this.progressBar1.TabIndex = 0;
             // 
             // btnResult
@@ -198,9 +199,9 @@ namespace Phase_problem_main
             this.labelDataSource.Location = new System.Drawing.Point(13, 284);
             this.labelDataSource.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelDataSource.Name = "labelDataSource";
-            this.labelDataSource.Size = new System.Drawing.Size(85, 16);
+            this.labelDataSource.Size = new System.Drawing.Size(138, 16);
             this.labelDataSource.TabIndex = 23;
-            this.labelDataSource.Text = "Data Source:";
+            this.labelDataSource.Text = "Visualization of points:";
             // 
             // comboRaster
             // 
@@ -217,9 +218,10 @@ namespace Phase_problem_main
             // comboDataSrc
             // 
             this.comboDataSrc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboDataSrc.Enabled = false;
             this.comboDataSrc.FormattingEnabled = true;
             this.comboDataSrc.Items.AddRange(new object[] {
-            "Zernike"});
+            "50"});
             this.comboDataSrc.Location = new System.Drawing.Point(16, 302);
             this.comboDataSrc.Margin = new System.Windows.Forms.Padding(4);
             this.comboDataSrc.MaxDropDownItems = 30;
@@ -266,6 +268,7 @@ namespace Phase_problem_main
             this.worker.WorkerReportsProgress = true;
             this.worker.WorkerSupportsCancellation = true;
             this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SetSurfaceZernike);
+            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_ProgressChanged);
             this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_RunWorkerCompleted);
             // 
             // MainForm
