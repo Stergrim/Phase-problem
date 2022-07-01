@@ -112,7 +112,7 @@ namespace Phase_problem_main
             this.labelDiscret.Name = "labelDiscret";
             this.labelDiscret.Size = new System.Drawing.Size(87, 32);
             this.labelDiscret.TabIndex = 6;
-            this.labelDiscret.Text = "Discretization\r\n(4 <--> 500)";
+            this.labelDiscret.Text = "Discretization\r\n(6 <--> 500)";
             // 
             // graph3D
             // 

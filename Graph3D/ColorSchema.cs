@@ -38,16 +38,18 @@ namespace Plot3D
 
         public static Color[] GetSchema(eSchema e_Schema)
         {
+            int lvlColor = 64;
+
             if (e_Schema == eSchema.Rainbow1)
             {
-                Color[] c_Rainbow = new Color[64 * 64];
+                Color[] c_Rainbow = new Color[lvlColor * lvlColor];
                 int C=0;
-                for (int Y = 0; Y < 64; Y++)
+                for (int Y = 0; Y < lvlColor; Y++)
                 {
-                    for (int X = 0; X < 64; X++)
+                    for (int X = 0; X < lvlColor; X++)
                     {
-                        int I = Y * 64 + X;
-                        double k = ((double)I) / 4095;
+                        int I = Y * lvlColor + X;
+                        double k = ((double)I) / (lvlColor * lvlColor - 1);
 
                         c_Rainbow[C++] = GetRainbowColor(k);
                     }

@@ -956,7 +956,7 @@ namespace Plot3D
             }
 
             // Create polygons
-            int bordersTrimming = 1;
+            int bordersTrimming = 2;
 
             for (int X = bordersTrimming; X < mi_PolyArr.GetLength(0) - bordersTrimming; X++)
             {
