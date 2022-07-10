@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultSurface.cs" />
     <Compile Include="FormationPolynomials.cs" />
     <Compile Include="WaveFront.cs" />
     <Compile Include="MainForm.cs">

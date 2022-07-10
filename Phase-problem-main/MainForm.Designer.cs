@@ -1,6 +1,4 @@
-﻿
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.ComponentModel;
 
 namespace Phase_problem_main
 {
@@ -69,7 +67,7 @@ namespace Phase_problem_main
             this.btnResult.TabIndex = 1;
             this.btnResult.Text = "Result";
             this.btnResult.UseVisualStyleBackColor = true;
-            this.btnResult.Click += new System.EventHandler(this.clickResult);
+            this.btnResult.Click += new System.EventHandler(this.ClickResult);
             // 
             // textBoxNumCoeff
             // 
@@ -80,7 +78,7 @@ namespace Phase_problem_main
             this.textBoxNumCoeff.Size = new System.Drawing.Size(144, 22);
             this.textBoxNumCoeff.TabIndex = 2;
             this.textBoxNumCoeff.Text = "10";
-            this.textBoxNumCoeff.TextChanged += new System.EventHandler(this.changeNumCoeff);
+            this.textBoxNumCoeff.TextChanged += new System.EventHandler(this.ChangeNumCoeff);
             this.textBoxNumCoeff.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RefreshCoeffBoard);
             this.textBoxNumCoeff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetNumCoeff);
             // 
@@ -92,8 +90,8 @@ namespace Phase_problem_main
             this.textBoxDiscret.Size = new System.Drawing.Size(144, 22);
             this.textBoxDiscret.TabIndex = 3;
             this.textBoxDiscret.Text = "50";
-            this.textBoxDiscret.TextChanged += new System.EventHandler(this.changeDiscret);
-            this.textBoxDiscret.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnEnableResultBoard);
+            this.textBoxDiscret.TextChanged += new System.EventHandler(this.ChangeDiscret);
+            this.textBoxDiscret.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BtnEnableResultBoard);
             this.textBoxDiscret.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetDiscret);
             // 
             // labelNumCoeff
@@ -103,7 +101,7 @@ namespace Phase_problem_main
             this.labelNumCoeff.Name = "labelNumCoeff";
             this.labelNumCoeff.Size = new System.Drawing.Size(127, 32);
             this.labelNumCoeff.TabIndex = 5;
-            this.labelNumCoeff.Text = "Number Coefficients\r\n(1 <--> 500)";
+            this.labelNumCoeff.Text = "Number Coefficients\r\n(1 <--> 1000)";
             // 
             // labelDiscret
             // 
@@ -112,7 +110,7 @@ namespace Phase_problem_main
             this.labelDiscret.Name = "labelDiscret";
             this.labelDiscret.Size = new System.Drawing.Size(87, 32);
             this.labelDiscret.TabIndex = 6;
-            this.labelDiscret.Text = "Discretization\r\n(6 <--> 500)";
+            this.labelDiscret.Text = "Discretization\r\n(6 <--> 1000)";
             // 
             // graph3D
             // 
@@ -160,7 +158,7 @@ namespace Phase_problem_main
             this.btnReset.TabIndex = 21;
             this.btnReset.Text = "Reset Position";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.btnReset.Click += new System.EventHandler(this.BtnResetClick);
             // 
             // btnScreenshot
             // 
@@ -171,7 +169,7 @@ namespace Phase_problem_main
             this.btnScreenshot.TabIndex = 22;
             this.btnScreenshot.Text = "Save Screenshot";
             this.btnScreenshot.UseVisualStyleBackColor = true;
-            this.btnScreenshot.Click += new System.EventHandler(this.btnScreenshot_Click);
+            this.btnScreenshot.Click += new System.EventHandler(this.BtnScreenshotClick);
             // 
             // labelCoordSystem
             // 
@@ -213,7 +211,7 @@ namespace Phase_problem_main
             this.comboRaster.Name = "comboRaster";
             this.comboRaster.Size = new System.Drawing.Size(160, 24);
             this.comboRaster.TabIndex = 20;
-            this.comboRaster.SelectedIndexChanged += new System.EventHandler(this.comboRaster_SelectedIndexChanged);
+            this.comboRaster.SelectedIndexChanged += new System.EventHandler(this.ComboRasterSelectedIndexChanged);
             // 
             // comboDataSrc
             // 
@@ -228,7 +226,7 @@ namespace Phase_problem_main
             this.comboDataSrc.Name = "comboDataSrc";
             this.comboDataSrc.Size = new System.Drawing.Size(160, 24);
             this.comboDataSrc.TabIndex = 18;
-            this.comboDataSrc.SelectedIndexChanged += new System.EventHandler(this.comboDataSrc_SelectedIndexChanged);
+            this.comboDataSrc.SelectedIndexChanged += new System.EventHandler(this.ComboDataSrcSelectedIndexChanged);
             // 
             // comboColors
             // 
@@ -240,7 +238,7 @@ namespace Phase_problem_main
             this.comboColors.Name = "comboColors";
             this.comboColors.Size = new System.Drawing.Size(160, 24);
             this.comboColors.TabIndex = 19;
-            this.comboColors.SelectedIndexChanged += new System.EventHandler(this.comboColors_SelectedIndexChanged);
+            this.comboColors.SelectedIndexChanged += new System.EventHandler(this.ComboColorsSelectedIndexChanged);
             // 
             // btnCoefficients
             // 
@@ -250,7 +248,7 @@ namespace Phase_problem_main
             this.btnCoefficients.TabIndex = 26;
             this.btnCoefficients.Text = "Set Coefficients";
             this.btnCoefficients.UseVisualStyleBackColor = true;
-            this.btnCoefficients.Click += new System.EventHandler(this.btnCoeff_click);
+            this.btnCoefficients.Click += new System.EventHandler(this.BtnCoeffClick);
             // 
             // btnStop
             // 
@@ -261,15 +259,15 @@ namespace Phase_problem_main
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Visible = false;
-            this.btnStop.Click += new System.EventHandler(this.btnStopClick);
+            this.btnStop.Click += new System.EventHandler(this.BtnStopClick);
             // 
             // worker
             // 
             this.worker.WorkerReportsProgress = true;
             this.worker.WorkerSupportsCancellation = true;
             this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SetSurfaceZernike);
-            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgw_ProgressChanged);
-            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_RunWorkerCompleted);
+            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BgwProgressChanged);
+            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BgwRunWorkerCompleted);
             // 
             // MainForm
             // 

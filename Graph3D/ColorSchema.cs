@@ -8,10 +8,7 @@ https://www.codeproject.com/Articles/5293980/Graph3D-A-Windows-Forms-Render-Cont
 *****************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Text;
 
 namespace Plot3D
 {

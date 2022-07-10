@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Phase_problem_main
@@ -17,7 +11,7 @@ namespace Phase_problem_main
         public Label[] labels;
         public event SetbtnResultActive SetbtnResult;
         public delegate void SetbtnResultActive(bool enable);
-        public bool Activeresult = true;
+        public bool ActiveResult = true;
 
         public ZernikeCoefficientsForm(int textBoxesCount)
         {
@@ -27,6 +21,7 @@ namespace Phase_problem_main
             InitialTextBoxes(textBoxesCount, 0);
             ZeroInitialTextBoxes();
         }
+
         private void InitialTextBoxes(int textBoxesCount, int oldLength)
         {
             int count = 0;
@@ -64,7 +59,7 @@ namespace Phase_problem_main
                             Text = "0.0",
                             TextAlign = HorizontalAlignment.Center
                         };
-                        this.textBoxes[count].TextChanged += new EventHandler(this.changeCoeff);
+                        this.textBoxes[count].TextChanged += new EventHandler(this.ChangeCoeff);
                         this.textBoxes[count].KeyPress += new KeyPressEventHandler(this.SetCoeff);
                         this.Controls.Add(textBoxes[count]);
                     }
@@ -90,7 +85,7 @@ namespace Phase_problem_main
             else
                 RemoveTextBoxes(textBoxesCount, oldLength);
             RedToWhiteColorBox();
-            Activeresult = true;
+            ActiveResult = true;
         }
 
         private void RemoveTextBoxes(int textBoxesCount, int oldLength)
@@ -139,12 +134,12 @@ namespace Phase_problem_main
                 {
                     box.Text = "0.0";
                     box.BackColor = Color.White;
-                    Activeresult = true;
+                    ActiveResult = true;
                 }
             }
         }
 
-        private void changeCoeff(object sender, EventArgs e)
+        private void ChangeCoeff(object sender, EventArgs e)
         {
             var regex = new Regex("[0-9]?[.[0-9]+]?");
             var regexOnePoint = new Regex("^(?=[^.]*\\.?[^.]*$)");
@@ -152,21 +147,25 @@ namespace Phase_problem_main
 
             var textBoxCurrent = (TextBox)sender;
 
-            if (string.IsNullOrWhiteSpace(textBoxCurrent.Text) || textBoxCurrent.Text == "." || textBoxCurrent.Text == "-")
+            if (string.IsNullOrWhiteSpace(textBoxCurrent.Text) ||
+                textBoxCurrent.Text == "." ||
+                textBoxCurrent.Text == "-")
             {
                 textBoxCurrent.Text = "0.0";
             }
             else if (textBoxCurrent.BackColor == Color.LightCoral)
             {
                 textBoxCurrent.BackColor = Color.White;
-                Activeresult = true;
+                ActiveResult = true;
                 SetbtnResult(true);
             }
-            else if (!regex.IsMatch(textBoxCurrent.Text) || !regexOnePoint.IsMatch(textBoxCurrent.Text)|| !regexOneMinus.IsMatch(textBoxCurrent.Text))
+            else if (!regex.IsMatch(textBoxCurrent.Text) ||
+                     !regexOnePoint.IsMatch(textBoxCurrent.Text)||
+                     !regexOneMinus.IsMatch(textBoxCurrent.Text))
             {
                 textBoxCurrent.BackColor = Color.LightCoral;
                 SetbtnResult(false);
-                Activeresult = false;
+                ActiveResult = false;
 
             }
             else textBoxCurrent.BackColor = Color.White;
@@ -178,17 +177,17 @@ namespace Phase_problem_main
             this.Hide();
         }
 
-        private void clickReset(object sender, EventArgs e)
+        private void ClickReset(object sender, EventArgs e)
         {
             ZeroInitialTextBoxes();
-            Activeresult = true;
+            ActiveResult = true;
             SetbtnResult(true);
         }
 
-        private void clickRandom(object sender, EventArgs e)
+        private void ClickRandom(object sender, EventArgs e)
         {
             RandomInitialTextBoxes();
-            Activeresult = true;
+            ActiveResult = true;
             SetbtnResult(true);
         }
     }

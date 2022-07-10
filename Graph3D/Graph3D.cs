@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -534,6 +533,24 @@ namespace Plot3D
         cQuadrant mi_Quadrant;
         int ms32_Points;
 
+        // Опредление области отображения поверхности
+        public double[,] areaDisplay;
+        public double[,] AreaDisplay
+        {
+            get { return areaDisplay; }
+            set
+            {
+                if (value == null)
+                {
+                    areaDisplay = value;
+                    return;
+                }
+                if (value.GetLength(0) == 0 ||
+                    value.GetLength(1) == 0) throw new ArgumentException();
+                areaDisplay = value;
+            }
+        }
+
         /// <summary>
         /// Off:      draw no coordinate system
         /// MainAxis: draw solid axis X,Y,Z
@@ -940,8 +957,6 @@ namespace Plot3D
             }
         }
 
-        public double[,] AreaDisplay { get; set; }
-
         private void CreatePolygons()
         {
             cPoint2D[,] i_Points2D = new cPoint2D[mi_PolyArr.GetLength(0), mi_PolyArr.GetLength(1)];
@@ -962,9 +977,11 @@ namespace Plot3D
             {
                 for (int Y = bordersTrimming; Y < mi_PolyArr.GetLength(1) - bordersTrimming; Y++)
                 {
-                    if (AreaDisplay[X,Y] <= 1.0 && AreaDisplay[X, Y + bordersTrimming] <= 1.0 &&
+                    if (AreaDisplay == null ||
+                       (AreaDisplay[X,Y] <= 1.0 &&
+                        AreaDisplay[X, Y + bordersTrimming] <= 1.0 &&
                         AreaDisplay[X + bordersTrimming, Y + bordersTrimming] <= 1.0 &&
-                        AreaDisplay[X + bordersTrimming, Y] <= 1.0)
+                        AreaDisplay[X + bordersTrimming, Y] <= 1.0))
                     {
                         cPolygon i_Poly = new cPolygon(i_Points2D[X, Y],
                                i_Points2D[X, Y + 1],

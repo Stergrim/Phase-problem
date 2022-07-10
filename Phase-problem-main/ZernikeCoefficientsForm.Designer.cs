@@ -40,7 +40,7 @@
             this.btnReset.TabIndex = 0;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.clickReset);
+            this.btnReset.Click += new System.EventHandler(this.ClickReset);
             // 
             // btnRandom
             // 
@@ -50,7 +50,7 @@
             this.btnRandom.TabIndex = 1;
             this.btnRandom.Text = "Random";
             this.btnRandom.UseVisualStyleBackColor = true;
-            this.btnRandom.Click += new System.EventHandler(this.clickRandom);
+            this.btnRandom.Click += new System.EventHandler(this.ClickRandom);
             // 
             // ZernikeCoefficientsForm
             // 
