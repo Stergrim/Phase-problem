@@ -343,6 +343,8 @@ namespace Phase_problem_main
             {
                 textBoxNumCoeff.BackColor = Color.White;
                 NumberCoefficients = int.Parse(textBoxNumCoeff.Text);
+                if (initialZernikeCoeffForm) zernikeCoefficientsForm.RefreshTextBoxes(NumberCoefficients);
+                SetbtnResult(allTextBoxesIsNotEmpty());
             }
         }
 
@@ -361,12 +363,20 @@ namespace Phase_problem_main
             {
                 textBoxDiscret.BackColor = Color.White;
                 DiscretizationPupil = int.Parse(textBoxDiscret.Text) + 1;
+                SetbtnResult(allTextBoxesIsNotEmpty());
             }
         }
 
         public void SetbtnResult(bool enable)
         {
-            btnResult.Enabled = enable;
+            if (initialZernikeCoeffForm)
+            {
+                btnResult.Enabled = zernikeCoefficientsForm.Activeresult && enable;
+            }
+            else
+            {
+                btnResult.Enabled = enable;
+            }
         }
 
         public bool allTextBoxesIsNotEmpty()
