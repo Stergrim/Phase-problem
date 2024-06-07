@@ -24,13 +24,13 @@
 ***Главное окно приложения***
  
 <figure>
-<img src="demos/MainWindow.jpg" width="600"/>
+<img src="/demos/MainWindow.jpg" width="600"/>
 </figure>
 
 ***Окно для определения коэффицинтов Цернике***
 
 <figure>
-<img src="demos/SetWindow.jpg" width="450"/>
+<img src="/demos/SetWindow.jpg" width="450"/>
 </figure>
 
 ### **Этап №2 (…)**
